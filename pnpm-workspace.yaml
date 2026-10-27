@@ -1,0 +1,12 @@
+packages:
+  - web
+
+# Supply-chain guard: refuse package versions published < 1 day ago (pnpm >= 10.16).
+minimumReleaseAge: 1440
+
+onlyBuiltDependencies:
+  - esbuild
+
+# NOTE: the Replit-era file blocked every non-linux-x64 native binary
+# (esbuild/rollup/lightningcss/@tailwindcss/oxide) via `overrides`. That breaks
+# Vite on macOS and Windows, so those overrides were removed on purpose.

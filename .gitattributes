@@ -1,0 +1,16 @@
+# Normalise text to LF everywhere (shell scripts must never be CRLF).
+* text=auto eol=lf
+
+# Fixtures are byte-exact test oracles: never let git rewrite line endings.
+engine/tests/fixtures/* -text
+engine/tests/fixtures/regenerate.sh text eol=lf
+engine/tests/fixtures/elf_write_exit binary
+engine/tests/fixtures/sum_squares binary
+engine/tests/fixtures/libc_startup binary
+*.wasm binary
+
+# Collapse generated files in GitHub diffs (matters when reviewing PRs on a phone).
+engine/src/generated.rs linguist-generated=true
+engine/src/exec_generated.rs linguist-generated=true
+pnpm-lock.yaml linguist-generated=true
+engine/Cargo.lock linguist-generated=true

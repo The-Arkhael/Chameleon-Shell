@@ -1,0 +1,83 @@
+
+sum_squares:     file format elf64-x86-64
+
+
+Disassembly of section .text:
+
+0000000000401000 <_start>:
+  401000:	e8 3d 00 00 00       	call   401042 <c_main>
+
+0000000000401005 <sum_squares>:
+  401005:	48 85 ff             	test   %rdi,%rdi
+  401008:	74 33                	je     40103d <sum_squares+0x38>
+  40100a:	b8 01 00 00 00       	mov    $0x1,%eax
+  40100f:	ba 00 00 00 00       	mov    $0x0,%edx
+  401014:	66 66 2e 0f 1f 84 00 	data16 cs nopw 0x0(%rax,%rax,1)
+  40101b:	00 00 00 00 
+  40101f:	90                   	nop
+  401020:	48 89 c1             	mov    %rax,%rcx
+  401023:	48 0f af c8          	imul   %rax,%rcx
+  401027:	48 01 ca             	add    %rcx,%rdx
+  40102a:	48 83 c0 01          	add    $0x1,%rax
+  40102e:	48 39 c7             	cmp    %rax,%rdi
+  401031:	73 ed                	jae    401020 <sum_squares+0x1b>
+  401033:	48 89 d0             	mov    %rdx,%rax
+  401036:	31 d2                	xor    %edx,%edx
+  401038:	31 c9                	xor    %ecx,%ecx
+  40103a:	31 ff                	xor    %edi,%edi
+  40103c:	c3                   	ret
+  40103d:	48 89 fa             	mov    %rdi,%rdx
+  401040:	eb f1                	jmp    401033 <sum_squares+0x2e>
+
+0000000000401042 <c_main>:
+  401042:	50                   	push   %rax
+  401043:	58                   	pop    %rax
+  401044:	48 83 ec 40          	sub    $0x40,%rsp
+  401048:	c6 44 24 20 73       	movb   $0x73,0x20(%rsp)
+  40104d:	c6 44 24 21 75       	movb   $0x75,0x21(%rsp)
+  401052:	c6 44 24 22 6d       	movb   $0x6d,0x22(%rsp)
+  401057:	c6 44 24 23 3d       	movb   $0x3d,0x23(%rsp)
+  40105c:	bf 64 00 00 00       	mov    $0x64,%edi
+  401061:	e8 9f ff ff ff       	call   401005 <sum_squares>
+  401066:	48 89 c6             	mov    %rax,%rsi
+  401069:	b9 00 00 00 00       	mov    $0x0,%ecx
+  40106e:	4c 8d 54 24 ff       	lea    -0x1(%rsp),%r10
+  401073:	49 b9 cd cc cc cc cc 	movabs $0xcccccccccccccccd,%r9
+  40107a:	cc cc cc 
+  40107d:	0f 1f 00             	nopl   (%rax)
+  401080:	49 89 c8             	mov    %rcx,%r8
+  401083:	48 83 c1 01          	add    $0x1,%rcx
+  401087:	48 89 f0             	mov    %rsi,%rax
+  40108a:	49 f7 e1             	mul    %r9
+  40108d:	48 c1 ea 03          	shr    $0x3,%rdx
+  401091:	48 8d 3c 92          	lea    (%rdx,%rdx,4),%rdi
+  401095:	48 01 ff             	add    %rdi,%rdi
+  401098:	48 89 f0             	mov    %rsi,%rax
+  40109b:	48 29 f8             	sub    %rdi,%rax
+  40109e:	83 c0 30             	add    $0x30,%eax
+  4010a1:	41 88 04 0a          	mov    %al,(%r10,%rcx,1)
+  4010a5:	48 89 f0             	mov    %rsi,%rax
+  4010a8:	48 89 d6             	mov    %rdx,%rsi
+  4010ab:	48 83 f8 09          	cmp    $0x9,%rax
+  4010af:	77 cf                	ja     401080 <c_main+0x3e>
+  4010b1:	4a 8d 14 04          	lea    (%rsp,%r8,1),%rdx
+  4010b5:	b8 00 00 00 00       	mov    $0x0,%eax
+  4010ba:	48 8d 7c 24 24       	lea    0x24(%rsp),%rdi
+  4010bf:	90                   	nop
+  4010c0:	0f b6 32             	movzbl (%rdx),%esi
+  4010c3:	40 88 34 07          	mov    %sil,(%rdi,%rax,1)
+  4010c7:	48 83 c0 01          	add    $0x1,%rax
+  4010cb:	48 83 ea 01          	sub    $0x1,%rdx
+  4010cf:	48 39 c8             	cmp    %rcx,%rax
+  4010d2:	72 ec                	jb     4010c0 <c_main+0x7e>
+  4010d4:	42 c6 44 04 25 0a    	movb   $0xa,0x25(%rsp,%r8,1)
+  4010da:	b8 01 00 00 00       	mov    $0x1,%eax
+  4010df:	48 8d 74 24 20       	lea    0x20(%rsp),%rsi
+  4010e4:	49 8d 50 06          	lea    0x6(%r8),%rdx
+  4010e8:	48 89 c7             	mov    %rax,%rdi
+  4010eb:	0f 05                	syscall
+  4010ed:	b8 3c 00 00 00       	mov    $0x3c,%eax
+  4010f2:	bf 00 00 00 00       	mov    $0x0,%edi
+  4010f7:	0f 05                	syscall
+  4010f9:	90                   	nop
+  4010fa:	eb fe                	jmp    4010fa <c_main+0xb8>

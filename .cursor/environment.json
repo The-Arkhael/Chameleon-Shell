@@ -1,0 +1,4 @@
+{
+  "build": { "dockerfile": "Dockerfile", "context": ".." },
+  "install": "pnpm install --frozen-lockfile && cargo fetch --locked --manifest-path engine/Cargo.toml"
+}

@@ -1,0 +1,10 @@
+---
+description: Rules for the TypeScript generator and the generated Rust files
+globs: generator/**/*.ts, engine/src/generated.rs, engine/src/exec_generated.rs
+alwaysApply: false
+---
+- `engine/src/generated.rs` and `engine/src/exec_generated.rs` are outputs. Edit `generator/generate.ts`, then `pnpm generate`.
+- Hand-written semantics live in `engine/src/exec_ops.rs`; the generator maps mnemonics to those handlers and emits the
+  list of implemented mnemonics that `coverage_report()` reads (single source of truth, no second hand-kept list).
+- `GENERATOR_OUTPUT_ROOT=<dir>` redirects output (used by the drift check). Keep that behavior.
+- Generated modules are `#[rustfmt::skip]` in `lib.rs`. If output formatting changes, regenerate; do not run rustfmt on them.

@@ -1,0 +1,10 @@
+---
+description: Test fixtures and native oracles for ELF execution
+globs: engine/tests/fixtures/**
+alwaysApply: false
+---
+- Do not overwrite committed fixture binaries or oracle files. Add new fixtures alongside with: source, binary, `.stdout`,
+  `.exitcode`, `.objdump.txt`/`.readelf.txt`, and (for libc programs) `.strace.txt`, plus a recipe in `regenerate.sh`.
+- Oracles come from running the real binary natively; the engine result must match stdout and exit code exactly.
+- Current fixtures: `elf_write_exit` (hand assembly, exit 37), `sum_squares` (freestanding gcc -O2, `sum=338350`),
+  `libc_startup` (musl static hello; engine does not run it yet, see docs/STATUS.md).

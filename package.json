@@ -1,0 +1,25 @@
+{
+  "name": "chameleon-shell",
+  "version": "0.0.0",
+  "private": true,
+  "packageManager": "pnpm@10.34.6",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "pnpm --filter @chameleon/web dev",
+    "build": "pnpm run engine:build && pnpm --filter @chameleon/web build",
+    "typecheck": "pnpm --filter @chameleon/web typecheck && tsc -p generator/tsconfig.json --noEmit",
+    "generate": "tsx generator/generate.ts",
+    "engine:check": "node scripts/engine.mjs check",
+    "engine:build": "node scripts/engine.mjs build",
+    "engine:test": "node scripts/engine.mjs test",
+    "fixtures:regenerate": "bash engine/tests/fixtures/regenerate.sh",
+    "golden": "node scripts/golden.mjs"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "tsx": "^4.21.0",
+    "typescript": "~5.9.3"
+  }
+}

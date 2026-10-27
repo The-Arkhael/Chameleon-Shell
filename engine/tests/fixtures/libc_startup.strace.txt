@@ -1,0 +1,6 @@
+4156  execve("engine/tests/fixtures/libc_startup", ["engine/tests/fixtures/libc_start"...], 0x7ffedd8912b8 /* 173 vars */) = 0
+4156  arch_prctl(ARCH_SET_FS, 0x404138) = 0
+4156  set_tid_address(0x404270)         = 4156
+4156  write(1, "hello\n", 6)            = 6
+4156  exit_group(0)                     = ?
+4156  +++ exited with 0 +++

@@ -1,0 +1,26 @@
+
+Elf file type is EXEC (Executable file)
+Entry point 0x401000
+There are 5 program headers, starting at offset 64
+
+Program Headers:
+  Type           Offset             VirtAddr           PhysAddr
+                 FileSiz            MemSiz              Flags  Align
+  LOAD           0x0000000000000000 0x0000000000400000 0x0000000000400000
+                 0x0000000000000188 0x0000000000000188  R      0x1000
+  LOAD           0x0000000000001000 0x0000000000401000 0x0000000000401000
+                 0x00000000000000fc 0x00000000000000fc  R E    0x1000
+  NOTE           0x0000000000000158 0x0000000000400158 0x0000000000400158
+                 0x0000000000000030 0x0000000000000030  R      0x8
+  GNU_PROPERTY   0x0000000000000158 0x0000000000400158 0x0000000000400158
+                 0x0000000000000030 0x0000000000000030  R      0x8
+  GNU_STACK      0x0000000000000000 0x0000000000000000 0x0000000000000000
+                 0x0000000000000000 0x0000000000000000  RW     0x10
+
+ Section to Segment mapping:
+  Segment Sections...
+   00     .note.gnu.property 
+   01     .text 
+   02     .note.gnu.property 
+   03     .note.gnu.property 
+   04     

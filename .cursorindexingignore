@@ -1,0 +1,7 @@
+# Not indexed for semantic search (still readable if you @-mention them)
+.agents/skills/
+engine/tests/fixtures/elf_write_exit
+engine/tests/fixtures/sum_squares
+engine/tests/fixtures/libc_startup
+web/public/wasm/
+pnpm-lock.yaml

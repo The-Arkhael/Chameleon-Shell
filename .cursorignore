@@ -1,0 +1,5 @@
+# Blocked from the AI entirely (huge or generated; never useful to read)
+target/
+engine/pkg/
+node_modules/
+dist/

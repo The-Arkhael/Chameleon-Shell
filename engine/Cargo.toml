@@ -1,0 +1,18 @@
+# Toolchain: pinned to Rust 1.86.0 by rust-toolchain.toml (see README.md).
+[package]
+name = "chameleon-engine"
+version = "0.1.0"
+edition = "2021"
+description = "x86-64 Linux user-space interpreter compiled to WebAssembly (Chameleon Shell engine)"
+publish = false
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+wasm-bindgen = "0.2"
+iced-x86 = { version = "1", default-features = false, features = ["std", "decoder", "nasm", "encoder", "code_asm", "instr_info"] }
+goblin = { version = "0.9", default-features = false, features = ["elf32", "elf64", "endian_fd", "std"] }
+
+[profile.release]
+opt-level = "s"

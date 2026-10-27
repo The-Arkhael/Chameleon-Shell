@@ -1,0 +1,43 @@
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4          # version comes from "packageManager" in package.json
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - uses: dtolnay/rust-toolchain@1.86.0
+        with:
+          components: clippy, rustfmt
+          targets: wasm32-unknown-unknown
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: engine
+      - uses: jetli/wasm-pack-action@v0.4.0
+        with:
+          version: v0.13.1
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm typecheck
+      - name: Engine gates + wasm build (drift, rustfmt, clippy, cargo test, wasm-pack)
+        run: pnpm engine:build
+      - name: Golden results against the freshly built wasm
+        run: pnpm golden
+      - run: pnpm --filter @chameleon/web build
+      - name: Native fixture oracles (x86-64 Linux only)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y musl-tools strace
+          pnpm fixtures:regenerate

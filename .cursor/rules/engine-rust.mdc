@@ -1,0 +1,18 @@
+---
+description: Conventions for the Rust/Wasm engine crate (CPU semantics, handlers, syscalls, ELF)
+globs: engine/src/**/*.rs
+alwaysApply: false
+---
+- Guest-triggered failures return `Err(String)` with mnemonic, address and context; never `unwrap`/`expect`/`unreachable!`
+  on values derived from guest bytes, registers or memory. Register reads/writes of unsupported registers are errors, not panics.
+- Numeric code: cast deliberately (`try_from` where truncation would be a bug, `as` only with a comment). Compute flags with
+  `overflowing_add/sub` on the operand-width unsigned type (CF) and signed type (OF); ZF/SF from the truncated result.
+- Logic ops (and/or/xor/test) clear CF and OF. Shift counts mask to 5 bits (6 for 64-bit operands) at every operand width; a
+  masked count of 0 changes no flags, yet a 32-bit destination is still zero-extended (`flags_oracle.txt` is the native proof).
+  32-bit destination writes zero-extend to 64; 8/16-bit writes preserve the rest of the register (including AH/BH/CH/DH).
+- Memory access only through the bounds-checked helpers; effective address = base + index*scale + disp, RIP-relative via
+  `ip_rel_memory_address()`, FS-prefixed operands add `fs_base`.
+- Every new mnemonic/syscall: add it to `generator/generate.ts`, regenerate, add an encoder-built known-answer test in
+  `self_test.rs` (and a unit test if it needs native-only assertions), then run `pnpm engine:check`.
+- Syscalls follow the x86-64 Linux ABI: number in RAX, args RDI,RSI,RDX,R10,R8,R9, result in RAX, RCX/R11 clobbered.
+  Verify numbers/constants against kernel headers before wiring them in.

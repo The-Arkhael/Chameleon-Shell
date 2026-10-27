@@ -1,0 +1,22 @@
+# dependencies / build output / compiled & executables
+node_modules/
+dist/
+*.tsbuildinfo
+target/
+debug/
+engine/pkg/
+
+# backups
+**/*.rs.bk
+
+# wasm build output is produced by 'pnpm engine:build'
+web/public/wasm/
+
+# editors / OS
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+.DS_Store
+Thumbs.db
+*.log

@@ -1,0 +1,39 @@
+# libc_startup.initial_stack.txt - the initial process stack the native reference run (libc_startup.steptrace.txt) started on.
+# A measurement: never hand-edit it. The body below is the verbatim output of
+#   nativetrace --custom --stack FILE libc_startup /bin/prog
+# and regenerate.sh re-creates it and diffs it against this file.
+# What the ENGINE must reproduce so that musl executes the same instructions (each item sets a loop count or a branch in musl's startup):
+#   - argc=1 and argv[0]="/bin/prog" (9 bytes: __init_libc scans argv[0] for '/');
+#   - exactly 2 env strings, then exactly the 15 auxv entries listed below (the auxv loop runs once per entry; every type is below
+#     musl's AUX_CNT of 38, so each value is stored);
+#   - AT_PHDR/AT_PHENT/AT_PHNUM describing the ELF program headers as loaded in guest memory (static_init_tls walks them);
+#   - AT_UID==AT_EUID, AT_GID==AT_EGID, AT_SECURE==0, else __init_libc takes a poll()+open() fallback (objdump 0x40129a-0x40132a)
+#     that this trace never enters;
+#   - a non-null AT_RANDOM pointing at 16 readable bytes (here 00 11 22 .. ff).
+# Layout: the addresses are those of nativetrace.c's builder (stack top 0x1000000, rsp 16-byte aligned at entry, strings above the
+# auxv). The engine should reproduce them exactly so the whole stack can be compared byte for byte; rsp % 16 == 0 is required anyway.
+mode=custom
+entry_rip=0x401061
+rsp_at_entry=0xfffe70 (rsp % 16 = 0)
+argc=1
+argv[0]=0xffffc6 "/bin/prog"
+envp[0]=0xffffd0 "PATH=/usr/bin:/bin"
+envp[1]=0xffffe3 "HOME=/root"
+envc=2
+auxv AT_PHDR          ( 3) = 0x400040
+auxv AT_PHENT         ( 4) = 0x38
+auxv AT_PHNUM         ( 5) = 0x8
+auxv AT_PAGESZ        ( 6) = 0x1000
+auxv AT_ENTRY         ( 9) = 0x401061
+auxv AT_UID           (11) = 0x3e8
+auxv AT_EUID          (12) = 0x3e8
+auxv AT_GID           (13) = 0x3e8
+auxv AT_EGID          (14) = 0x3e8
+auxv AT_SECURE        (23) = 0x0
+auxv AT_RANDOM        (25) = 0xffffa0
+auxv AT_HWCAP         (16) = 0x0
+auxv AT_CLKTCK        (17) = 0x64
+auxv AT_PLATFORM      (15) = 0xffffbf
+auxv AT_EXECFN        (31) = 0xffffee
+auxv AT_NULL          ( 0) = 0x0
+auxv_end=0xffffa0
